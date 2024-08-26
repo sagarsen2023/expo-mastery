@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ScrollView,
+} from "react-native";
 
 // We mainly work with core components like View, Text, Button, Image, etc.
 // Here styles are not being cascaded like in web development. We have to apply styles to each component separately.
@@ -29,13 +36,13 @@ export default function App() {
       </View>
 
       <View style={styles.goalsContainer}>
-        {goals.map((goal, index) => (
-          <View key={goal} style={styles.goalItems}>
-            <Text style={{color: "white "}}>
-              {goal}
-            </Text>
-          </View>
-        ))}
+        <ScrollView alwaysBounceVertical={false}>
+          {goals.map((goal, index) => (
+            <View key={goal} style={styles.goalItems}>
+              <Text style={{ color: "white " }}>{goal}</Text>
+            </View>
+          ))}
+        </ScrollView>
       </View>
     </View>
   );
