@@ -5,7 +5,7 @@ import {
   Text,
   TextInput,
   View,
-  ScrollView,
+  FlatList,
 } from "react-native";
 
 // We mainly work with core components like View, Text, Button, Image, etc.
@@ -20,8 +20,10 @@ export default function App() {
   }
 
   function addGoalHandler() {
-    setGoals((currentGoals) => [...currentGoals, enteredGoalText]);
-    setEnteredGoalText("");
+    setGoals((currentGoals) => [
+      ...currentGoals,
+      { text: enteredGoalText, id: Math.random().toString() },
+    ]);
   }
 
   return (
@@ -36,13 +38,18 @@ export default function App() {
       </View>
 
       <View style={styles.goalsContainer}>
-        <ScrollView alwaysBounceVertical={false}>
-          {goals.map((goal, index) => (
-            <View key={goal} style={styles.goalItems}>
-              <Text style={{ color: "white " }}>{goal}</Text>
+        <FlatList
+          data={goals}
+          alwaysBounceVertical={false}
+          renderItem={(itemData) => (
+            <View style={styles.goalItems}>
+              <Text style={{ color: "white" }}>{itemData.item.text}</Text>
             </View>
-          ))}
-        </ScrollView>
+          )}
+          keyExtractor={(item) => { 
+            return item.id;
+          }}
+        />
       </View>
     </View>
   );
