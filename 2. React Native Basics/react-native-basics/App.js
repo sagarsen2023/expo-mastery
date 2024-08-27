@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, Button } from "react-native";
 
 // Our first component
 import GoalItem from "./components/GoalItem";
@@ -9,6 +9,7 @@ import GoalInput from "./components/GoalInput";
 // Here styles are not being cascaded like in web development. We have to apply styles to each component separately.
 
 export default function App() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [goals, setGoals] = useState([]);
 
   function addGoalHandler(enteredGoalText) {
@@ -25,10 +26,17 @@ export default function App() {
     });
   }
 
+  function cancelGoalHandler() {
+    setIsModalVisible(false);
+  }
+
   return (
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={addGoalHandler} />
-
+      <Button title="Add new goal" color="white" onPress={()=>{
+        setIsModalVisible(true);
+      }}/>
+      <GoalInput onAddGoal={addGoalHandler} isModalVisible={isModalVisible} cancelGoalHandler={cancelGoalHandler}/>
+    
       <View style={styles.goalsContainer}>
         <FlatList
           data={goals}
@@ -54,6 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 50,
     paddingHorizontal: 16,
+    backgroundColor: "#f31282",
   },
 
   goalsContainer: {
