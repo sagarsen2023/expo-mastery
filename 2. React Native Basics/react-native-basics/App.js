@@ -10,12 +10,19 @@ import GoalInput from "./components/GoalInput";
 
 export default function App() {
   const [goals, setGoals] = useState([]);
-  
+
   function addGoalHandler(enteredGoalText) {
     setGoals((currentGoals) => [
       ...currentGoals,
       { text: enteredGoalText, id: Math.random().toString() },
     ]);
+  }
+
+  function removeGoalHandler(goalId) {
+    console.log(goalId)
+    setGoals((currentGoals) => {
+      return currentGoals.filter((goal) => goal.id !== goalId);
+    });
   }
 
   return (
@@ -26,7 +33,13 @@ export default function App() {
         <FlatList
           data={goals}
           alwaysBounceVertical={false}
-          renderItem={(itemData) => <GoalItem text={itemData.item.text} />}
+          renderItem={(itemData) => (
+            <GoalItem
+              text={itemData.item.text}
+              id={itemData.item.id}
+              removeGoal={removeGoalHandler}
+            />
+          )}
           keyExtractor={(item) => {
             return item.id;
           }}
